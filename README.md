@@ -1,4 +1,4 @@
-# babel-plugin-discard-module-references
+# babel-plugin-discard-module-references [![Build Status](https://travis-ci.org/ArnaudRinquin/babel-plugin-discard-module-references.svg)](https://travis-ci.org/ArnaudRinquin/babel-plugin-discard-module-references)
 
 Babel plugin to discard all code using specified imported modules
 
