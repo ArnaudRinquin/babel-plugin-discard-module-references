@@ -1,0 +1,11 @@
+{
+  "presets": ["stage-0", "es2015"],
+  "ignore": [
+    "node_modules"
+  ],
+  "plugins": [
+    ["discard-module-references", {
+      "for": ["assert"]
+    }]
+  ]
+}
