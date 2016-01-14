@@ -1,10 +1,13 @@
 # babel-plugin-discard-module-references [![Build Status](https://travis-ci.org/ArnaudRinquin/babel-plugin-discard-module-references.svg)](https://travis-ci.org/ArnaudRinquin/babel-plugin-discard-module-references)
 
-Babel plugin to discard all code using specified imported modules
+Babel plugin to discard all code using specified imported modules.
+
+If other imported modules are not used anymore, they are discarded as well.
 
 ## Use cases
 
 * write your tests along your code, run them in development but discard them on production
+* discard analytics code in dev mode
 * _???_
 
 ## Usage
@@ -21,14 +24,35 @@ Babel plugin to discard all code using specified imported modules
     "presets": ["es2015"],
     "plugins": [
       ["discard-module-references", {
-        "for": [
-          "some-module", "./or-even/relative-path"]
+        "targets": [ "some-module", "./or-even/relative-path" ]
       }]
     ]
   }
   ```
 
 1. ... or any config you're using, seek help from [doc](https://babeljs.io/docs/setup/)
+
+### Whitelisting unused imports
+
+By default, all unused module imports will be discarded, wether or not it's because you target the only code that were using them. By example, if you import `sinon` for you tests but discard all of them, `sinon` becomes useless and gets discarded as well.
+
+There is a potential issue with that when a module has expected side effects when imported.
+
+To whitelist a module so its import never gets discarded, simply use the `unusedWhitelist` options:
+
+```json
+{
+  "presets": ["es2015"],
+  "plugins": [
+    ["discard-module-references", {
+      "targets": [ "assert" ],
+      "unusedWhitelist": [ "sinon" ]
+    }]
+  ]
+}
+```
+
+Note: unspecified `imports` such as `import 'foobar';` are kept by default as they obviously must have some expected side effects.
 
 ## Example
 
@@ -41,6 +65,7 @@ With the following code, a production build that would use `babel-plugin-discard
 ```js
 import assert, { deepEqual } from 'assert';
 import _ from 'lodash';
+import path from 'path';
 
 export default function add(n1, n2) {
   return n1 + n2;
@@ -53,6 +78,7 @@ function doSomethingWithLodash() {
 assert(add(1, 2) === 3);
 assert.equal(typeof add, 'function');
 deepEqual({a:1}, {a:1});
+assert(path.basename('foo/bar.html') === 'something');
 ```
 
 Would be compiled to the following, where all tests are removed;
@@ -79,3 +105,5 @@ function doSomethingWithLodash() {
   return _lodash2.default.pick({ nose: 'big' }, 'nose');
 }
 ```
+
+Note how the import of `path` has been discarded.

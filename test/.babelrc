@@ -5,7 +5,8 @@
   ],
   "plugins": [
     ["discard-module-references", {
-      "for": ["assert"]
+      "targets": ["assert"],
+      "unusedWhitelist": ["path"]
     }]
   ]
 }

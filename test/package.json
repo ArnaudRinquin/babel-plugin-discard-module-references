@@ -11,7 +11,7 @@
     "postinstall": "rm -rf node_modules/babel-plugin-discard-module-references && mkdir -p node_modules/babel-plugin-discard-module-references && cp -r ../lib node_modules/babel-plugin-discard-module-references && cp ../package.json node_modules/babel-plugin-discard-module-references",
     "build": "mkdir -p dist && babel src/index.js -o dist/index.js",
     "prestart": "npm install",
-    "start": "npm run build && node dist/index.js"
+    "start": "npm run build && node dist/index.js | tap-spec"
   },
   "author": "",
   "license": "MIT",
@@ -19,6 +19,10 @@
     "babel-cli": "^6.4.0",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
+    "deep-extend": "^0.4.0",
+    "object-assign": "^4.0.1",
+    "sinon": "^1.17.2",
+    "tap-spec": "^4.1.1",
     "tape": "^4.4.0"
   }
 }
