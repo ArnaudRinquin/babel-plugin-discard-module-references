@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-discard-module-references",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Babel plugin to remove all code using specified imported modules",
   "main": "lib/index.js",
   "repository": {
