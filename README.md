@@ -30,6 +30,23 @@ If other imported modules are not used anymore, they are discarded as well.
   }
   ```
 
+  You can restrict the plugin to specific environments (like, `NODE_ENV=production`) using babel `env` config:
+
+  ```json
+  {
+      "presets": ["es2015"],
+      "env": {
+          "production": {
+              "plugins": [
+                  ["discard-module-references", {
+                      "targets": [ "my-test-framework" ]
+                  }]
+              ]
+          }
+      }
+  }
+  ```
+
 1. ... or any config you're using, seek help from [doc](https://babeljs.io/docs/setup/)
 
 ### Whitelisting unused imports
@@ -53,6 +70,30 @@ To whitelist a module so its import never gets discarded, simply use the `unused
 ```
 
 Note: unspecified `imports` such as `import 'foobar';` are kept by default as they obviously must have some expected side effects.
+
+**Note for React with JSX**
+
+If you're using React with JSX, you will probably need to whitelist `react`.
+
+Explanation: When using babel with JSX, you need to have `import React from 'react'` in your files because JSX will be converted to `React.doSomething()` call. This happens after the plugin runs, as a result, the `import` will be discarded as it is seen as unused your app will fail with `React is undefined`.
+
+Just whitelist it and you'll be fine:
+
+```json
+{
+    "presets": ["es2015", "react"],
+    "env": {
+        "production": {
+            "plugins": [
+                ["discard-module-references", {
+                    "targets": [ "tape" ],
+                    "unusedWhitelist": [ "react" ]
+                }]
+            ]
+        }
+    }
+}
+```
 
 ## Example
 
