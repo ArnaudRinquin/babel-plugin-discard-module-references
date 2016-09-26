@@ -1,10 +1,12 @@
 export default function (babel) {
   return {
     visitor: {
-      Program(path, state) {
-        path.traverse(removeTargetModuleReferences, state);
-        path.scope.crawl();
-        path.traverse(removeUnusedModulesReferences, state);
+      Program: {
+        exit(path, state) {
+          path.traverse(removeTargetModuleReferences, state);
+          path.scope.crawl();
+          path.traverse(removeUnusedModulesReferences, state);
+        }
       }
     }
   };
