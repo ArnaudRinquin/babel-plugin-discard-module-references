@@ -15,7 +15,7 @@ export default function (babel) {
 const removeTargetModuleReferences = {
   ImportDeclaration(path, state) {
 
-    const { targets } = state.opts;
+    const { targets = [] } = state.opts;
     const {
       source,
       specifiers,
