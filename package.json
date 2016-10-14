@@ -10,7 +10,8 @@
   "scripts": {
     "pretest": "npm run build",
     "test": "(cd ./test && npm start)",
-    "build": "babel src/index.js -o lib/index.js"
+    "build": "babel src/index.js -o lib/index.js",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "babel-plugin"
